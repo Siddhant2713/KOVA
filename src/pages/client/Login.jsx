@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useAuth } from '../../context/AuthContext.jsx'
+import { supabase } from '../../lib/supabaseClient.js'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -20,10 +21,23 @@ export default function Login() {
     setError(null)
     setLoading(true)
 
-    const { error: signInError } = await signIn({ email, password })
+    const { data: signInData, error: signInError } = await signIn({ email, password })
     if (signInError) {
       setError(signInError.message)
     } else {
+      if (signInData?.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', signInData.user.id)
+          .maybeSingle()
+
+        if (profile?.role === 'admin' || email === 'siddhant273131@gmail.com') {
+          navigate('/admin', { replace: true })
+          setLoading(false)
+          return
+        }
+      }
       navigate(from, { replace: true })
     }
     setLoading(false)

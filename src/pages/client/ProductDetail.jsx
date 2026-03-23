@@ -9,6 +9,7 @@ import ReviewSection from '../../components/ReviewSection/ReviewSection.jsx'
 import ProductGrid from '../../components/ProductGrid/ProductGrid.jsx'
 import ProductCard from '../../components/ProductCard/ProductCard.jsx'
 import { useProducts } from '../../hooks/useProducts.js'
+import { useRecentlyViewed } from '../../hooks/useRecentlyViewed.js'
 import { useAuth } from '../../context/AuthContext.jsx'
 
 export default function ProductDetail() {
@@ -25,6 +26,7 @@ export default function ProductDetail() {
   const { add: addToCart, loading: cartLoading } = useCartContext()
   const { toggle: toggleWishlist, items: wishlistItems } = useWishlistContext()
   const { products: relatedProducts } = useProducts({ categoryId: product?.category, limit: 6 })
+  const { logView } = useRecentlyViewed({ userId: user?.id })
 
   useEffect(() => {
     async function load() {
@@ -33,9 +35,13 @@ export default function ProductDetail() {
       setProduct(data)
       setLoading(false)
       window.scrollTo(0, 0)
+
+      if (user?.id) {
+        logView({ productId: id })
+      }
     }
     load()
-  }, [id])
+  }, [id, user?.id, logView])
 
   if (loading) return <div className="w-full min-h-screen flex items-center justify-center font-sans text-xs tracking-luxury uppercase text-warmgray">Locating piece...</div>
   if (!product) return <div className="w-full min-h-screen flex items-center justify-center font-display text-2xl text-charcoal">Piece unavailable.</div>

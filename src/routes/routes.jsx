@@ -17,9 +17,11 @@ import OrderDetail from '../pages/client/OrderDetail.jsx'
 import Login from '../pages/client/Login.jsx'
 import Register from '../pages/client/Register.jsx'
 
-// Admin pages
+import AdminLayout from '../components/layout/AdminLayout.jsx'
 import Dashboard from '../pages/admin/Dashboard.jsx'
 import ProductsAdmin from '../pages/admin/ProductsAdmin.jsx'
+import AddProduct from '../pages/admin/AddProduct.jsx'
+import EditProduct from '../pages/admin/EditProduct.jsx'
 import OrdersAdmin from '../pages/admin/OrdersAdmin.jsx'
 import CustomersAdmin from '../pages/admin/CustomersAdmin.jsx'
 import CategoriesAdmin from '../pages/admin/CategoriesAdmin.jsx'
@@ -40,22 +42,17 @@ export default function AppRoutes() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
 
-        <Route path="admin" element={<RequireAdmin><Dashboard /></RequireAdmin>} />
-        <Route
-          path="admin/products"
-          element={<RequireAdmin><ProductsAdmin /></RequireAdmin>}
-        />
-        <Route path="admin/orders" element={<RequireAdmin><OrdersAdmin /></RequireAdmin>} />
-        <Route
-          path="admin/customers"
-          element={<RequireAdmin><CustomersAdmin /></RequireAdmin>}
-        />
-        <Route
-          path="admin/categories"
-          element={<RequireAdmin><CategoriesAdmin /></RequireAdmin>}
-        />
-
         <Route path="*" element={<Navigate to="/" replace />} />
+      </Route>
+
+      <Route path="/admin" element={<RequireAdmin><AdminLayout /></RequireAdmin>}>
+        <Route index element={<Dashboard />} />
+        <Route path="products" element={<ProductsAdmin />} />
+        <Route path="products/new" element={<AddProduct />} />
+        <Route path="products/:id/edit" element={<EditProduct />} />
+        <Route path="orders" element={<OrdersAdmin />} />
+        <Route path="customers" element={<CustomersAdmin />} />
+        <Route path="categories" element={<CategoriesAdmin />} />
       </Route>
     </Routes>
   )

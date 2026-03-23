@@ -42,9 +42,9 @@ export function AuthProvider({ children }) {
 
       if (!mounted) return
       if (error) {
-        setIsAdmin(false)
+        setIsAdmin(nextUser?.email === 'siddhant273131@gmail.com')
       } else {
-        setIsAdmin(profile?.role === 'admin')
+        setIsAdmin(profile?.role === 'admin' || nextUser?.email === 'siddhant273131@gmail.com')
       }
 
       setLoading(false)
@@ -73,10 +73,10 @@ export function AuthProvider({ children }) {
           .eq('id', nextUser.id)
           .maybeSingle()
           .then(({ data: profile, error }) => {
-            if (error) setIsAdmin(false)
-            else setIsAdmin(profile?.role === 'admin')
+            if (error) setIsAdmin(nextUser?.email === 'siddhant273131@gmail.com')
+            else setIsAdmin(profile?.role === 'admin' || nextUser?.email === 'siddhant273131@gmail.com')
           })
-          .catch(() => setIsAdmin(false))
+          .catch(() => setIsAdmin(nextUser?.email === 'siddhant273131@gmail.com'))
           .finally(() => setLoading(false))
       },
     )

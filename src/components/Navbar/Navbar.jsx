@@ -9,7 +9,7 @@ import { useTheme } from '../../context/ThemeContext.jsx'
 export default function Navbar() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { user, signOut, loading } = useAuth()
+  const { user, signOut, loading, isAdmin } = useAuth()
   const { count: cartCount } = useCartContext()
   const { count: wishlistCount } = useWishlistContext()
   const { theme, toggleTheme } = useTheme()
@@ -135,9 +135,19 @@ export default function Navbar() {
               {loading ? (
                 <div className="w-8 h-8 rounded-full border border-silk bg-parchment animate-pulse" />
               ) : user ? (
-                <Link to="/orders" className="w-8 h-8 rounded-full border border-silk overflow-hidden flex items-center justify-center bg-parchment hover:border-charcoal transition-colors focus:outline-none">
-                  <FiUser size={16} strokeWidth={1.5} className="text-charcoal" />
-                </Link>
+                <div className="flex items-center gap-4">
+                  {isAdmin && (
+                    <Link to="/admin" className="text-[10px] tracking-luxury uppercase text-charcoal hover:opacity-70 transition-opacity">
+                      Admin
+                    </Link>
+                  )}
+                  <Link to="/orders" className="w-8 h-8 rounded-full border border-silk overflow-hidden flex items-center justify-center bg-parchment hover:border-charcoal transition-colors focus:outline-none" title="My Orders">
+                    <FiUser size={16} strokeWidth={1.5} className="text-charcoal" />
+                  </Link>
+                  <button onClick={signOut} className="text-[10px] tracking-luxury uppercase text-warmgray hover:text-charcoal transition-colors focus:outline-none">
+                    Sign Out
+                  </button>
+                </div>
               ) : (
                 <Link to="/login" className="text-xs tracking-luxury uppercase text-warmgray hover:text-charcoal transition-colors focus:outline-none">
                   Login
@@ -182,16 +192,26 @@ export default function Navbar() {
             </Link>
           ))}
 
-          <div className="mt-12 flex items-center gap-8 border-t border-silk pt-8 w-full max-w-[200px] justify-center">
+          <div className="mt-12 flex items-center gap-8 border-t border-silk pt-8 w-full max-w-sm justify-center flex-wrap">
             {!user && (
               <Link to="/login" className="text-xs tracking-luxury uppercase text-warmgray hover:text-charcoal transition-colors">
                 Login
               </Link>
             )}
             {user && (
-              <Link to="/orders" className="text-xs tracking-luxury uppercase text-warmgray hover:text-charcoal transition-colors">
-                My Account
-              </Link>
+              <>
+                {isAdmin && (
+                  <Link to="/admin" className="text-xs tracking-luxury uppercase text-charcoal hover:opacity-70 transition-opacity">
+                    Admin
+                  </Link>
+                )}
+                <Link to="/orders" className="text-xs tracking-luxury uppercase text-warmgray hover:text-charcoal transition-colors">
+                  My Account
+                </Link>
+                <button onClick={signOut} className="text-xs tracking-luxury uppercase text-warmgray hover:text-[#C53030] transition-colors focus:outline-none">
+                  Sign Out
+                </button>
+              </>
             )}
             <button onClick={toggleTheme} className="text-warmgray hover:text-charcoal transition-colors focus:outline-none">
               {theme === 'dark' ? <FiSun size={20} strokeWidth={1.5} /> : <FiMoon size={20} strokeWidth={1.5} />}

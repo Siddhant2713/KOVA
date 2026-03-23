@@ -5,23 +5,23 @@ import {
   logRecentlyViewed,
 } from '../services/recentlyViewed.js'
 
-export function useRecentlyViewed({ userId, categoryId } = {}) {
+export function useRecentlyViewed({ userId } = {}) {
   const [recommendations, setRecommendations] = useState([])
   const [loading, setLoading] = useState(false)
 
   const reload = useCallback(async () => {
-    if (!userId || !categoryId) {
+    if (!userId) {
       setRecommendations([])
       return
     }
     setLoading(true)
     try {
-      const res = await fetchRecentlyViewedRecommendations({ userId, categoryId })
+      const res = await fetchRecentlyViewedRecommendations({ userId, limit: 8 })
       setRecommendations(res)
     } finally {
       setLoading(false)
     }
-  }, [categoryId, userId])
+  }, [userId])
 
   useEffect(() => {
     reload()
@@ -30,9 +30,9 @@ export function useRecentlyViewed({ userId, categoryId } = {}) {
   const logView = useCallback(
     async ({ productId }) => {
       if (!userId) return null
-      return logRecentlyViewed({ userId, productId, categoryId })
+      return logRecentlyViewed({ userId, productId })
     },
-    [categoryId, userId],
+    [userId],
   )
 
   return { recommendations, loading, reload, logView }

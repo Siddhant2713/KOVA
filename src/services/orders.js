@@ -30,16 +30,16 @@ export async function placeOrder({ userId, items, subtotal, tax, total, shipping
   return order
 }
 
-export async function fetchUserOrders({ userId }) {
+export async function fetchOrders({ userId }) {
   if (!supabase) return []
   const { data, error } = await supabase.from('orders').select('*').eq('user_id', userId).order('created_at', { ascending: false })
   if (error) console.error(error)
   return data || []
 }
 
-export async function fetchOrderDetails(orderId) {
+export async function fetchOrderById({ userId, orderId }) {
   if (!supabase) return null
-  const { data, error } = await supabase.from('orders').select('*, order_items(*, products(*))').eq('id', orderId).single()
+  const { data, error } = await supabase.from('orders').select('*, order_items(*, products(*))').eq('id', orderId).eq('user_id', userId).single()
   if (error) console.error(error)
   return data
 }
