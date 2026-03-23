@@ -64,7 +64,10 @@ The administrative backend is structurally segregated beneath an `<AdminLayout /
    ```
 
 4. **Initialize Database Schema**
-   Locate the `supabase_schema.sql` architecture file. Execute it globally within your Supabase project's SQL Editor to instantiate the `profiles`, `products`, `orders`, `categories`, and `recently_viewed` tables alongside all active configured RLS policies.
+   Execute these SQL files in your Supabase project's SQL Editor in this exact order:
+   - Run `supabase_schema.sql` first (instantiates tables + basic public RLS policies).
+   - Run `supabase/rls.sql` second (establishes the `is_admin()` function and all Admin write policies).
+   - Run `supabase/storage.sql` third (configures the product-images bucket policies).
 
 5. **Start the Development Server**
    ```bash

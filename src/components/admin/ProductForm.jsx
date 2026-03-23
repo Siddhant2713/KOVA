@@ -25,6 +25,7 @@ export default function ProductForm({ isEditing = false, product = null, product
         rating: product?.rating || '0.0',
         rating_count: product?.rating_count || 0,
         is_featured: product?.is_featured || false,
+        image_url: product?.image_url || '',
     })
 
     useEffect(() => {
@@ -46,6 +47,12 @@ export default function ProductForm({ isEditing = false, product = null, product
 
     async function onSubmit(e) {
         e.preventDefault()
+
+        if (!imageFile && !formData.image_url) {
+            toast.error('Please upload a product image.')
+            return
+        }
+
         setUploading(true)
 
         try {

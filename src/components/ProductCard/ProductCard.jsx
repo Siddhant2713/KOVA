@@ -14,7 +14,7 @@ export default function ProductCard({ product }) {
     const handleAddToCart = (e) => {
         e.preventDefault()
         if (!user) {
-            alert("Please login to add to cart")
+            alert("Please login to add to bag")
             return
         }
         add(product.id, 1)
@@ -53,13 +53,13 @@ export default function ProductCard({ product }) {
                     <FiHeart size={14} fill={isWishlisted ? 'currentColor' : 'none'} strokeWidth={1.5} />
                 </button>
 
-                {/* Add to Cart Slider */}
+                {/* Add to Bag Slider */}
                 <div className="absolute bottom-0 left-0 w-full translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-20">
                     <button
                         onClick={handleAddToCart}
                         className="w-full bg-obsidian text-cream text-xs tracking-luxury uppercase py-3.5 rounded-none font-medium hover:bg-charcoal transition-colors duration-300 focus:outline-none"
                     >
-                        Add to Cart
+                        Add to Bag
                     </button>
                 </div>
             </div>

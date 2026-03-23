@@ -25,7 +25,7 @@ export async function fetchDashboardStats() {
         supabase
             .from('profiles')
             .select('id', { count: 'exact', head: true })
-            .eq('role', 'customer'),
+            .eq('role', 'user'),
 
         // Products with low or zero stock (using rating_count as proxy)
         // Note: real stock tracking would need a stock column added to products
@@ -167,18 +167,21 @@ export async function updateProduct({ id, updates }) {
 }
 
 export async function deleteProduct({ id }) {
-    if (!supabase) return false
+    if (!supabase) return { success: false, error: 'No client' }
 
-    const { error } = await supabase
+    const { error, count } = await supabase
         .from('products')
-        .delete()
+        .delete({ count: 'exact' })
         .eq('id', id)
 
     if (error) {
-        console.error('deleteProduct error:', error)
-        return false
+        console.error('deleteProduct error fully:', error)
+        return { success: false, error: error.message }
     }
-    return true
+    if (count === 0) {
+        return { success: false, error: 'Unauthorized or not found' }
+    }
+    return { success: true }
 }
 
 // ─── Image Upload ────────────────────────────────────
@@ -217,7 +220,7 @@ export async function fetchAllCustomers({ limit = 50, offset = 0 } = {}) {
     const { data, count, error } = await supabase
         .from('profiles')
         .select('*, orders(id)', { count: 'exact' })
-        .eq('role', 'customer')
+        .eq('role', 'user')
         .order('created_at', { ascending: false })
         .range(offset, offset + limit - 1)
 
@@ -263,16 +266,19 @@ export async function createCategory({ name, slug }) {
 }
 
 export async function deleteCategory({ id }) {
-    if (!supabase) return false
+    if (!supabase) return { success: false, error: 'No client' }
 
-    const { error } = await supabase
+    const { error, count } = await supabase
         .from('categories')
-        .delete()
+        .delete({ count: 'exact' })
         .eq('id', id)
 
     if (error) {
         console.error('deleteCategory error:', error)
-        return false
+        return { success: false, error: error.message }
     }
-    return true
+    if (count === 0) {
+        return { success: false, error: 'Unauthorized or not found' }
+    }
+    return { success: true }
 }

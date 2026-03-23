@@ -31,7 +31,7 @@ export default function Cart() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 lg:gap-24">
 
-        {/* Cart Items Matrix */}
+        {/* Bag Items Matrix */}
         <div className="lg:col-span-2 flex flex-col">
           {items.map(item => (
             <div className="flex gap-6 py-8 border-b border-silk first:border-top" key={item.product_id}>

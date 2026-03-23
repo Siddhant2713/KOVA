@@ -1,9 +1,11 @@
 const CATEGORIES = [
-    { id: null, name: 'House Selection' },
-    { id: 'women', name: 'Womenswear' },
-    { id: 'men', name: 'Menswear' },
-    { id: 'accessories', name: 'Accessories' },
-    { id: 'beauty', name: 'Beauty & Care' }
+    { id: null, name: 'All' },
+    { id: 'womens-rtw', name: 'Womenswear' },
+    { id: 'mens-rtw', name: 'Menswear' },
+    { id: 'handbags', name: 'Leather Goods' },
+    { id: 'accessories', name: 'Fine Accessories' },
+    { id: 'fragrances', name: 'Fragrances' },
+    { id: 'footwear', name: 'Footwear' }
 ]
 
 const SIZES = ['XS', 'S', 'M', 'L', 'XL']

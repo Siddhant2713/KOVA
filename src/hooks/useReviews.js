@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import { fetchReviews, postReview } from '../services/reviews.js'
+import { fetchReviewsByProduct, addReview } from '../services/reviews.js'
 
 export function useReviews({ productId, sort } = {}) {
   const [reviews, setReviews] = useState([])
@@ -13,7 +13,7 @@ export function useReviews({ productId, sort } = {}) {
     }
     setLoading(true)
     try {
-      const res = await fetchReviews({ productId, sort })
+      const res = await fetchReviewsByProduct(productId)
       setReviews(res)
     } finally {
       setLoading(false)
@@ -27,7 +27,7 @@ export function useReviews({ productId, sort } = {}) {
   const submitReview = useCallback(
     async ({ userId, rating, title, body }) => {
       if (!productId) return null
-      return postReview({ userId, productId, rating, title, body })
+      return addReview({ userId, productId, rating, comment: body })
     },
     [productId],
   )

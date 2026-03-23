@@ -53,6 +53,7 @@ export default function AppRoutes() {
         <Route path="orders" element={<OrdersAdmin />} />
         <Route path="customers" element={<CustomersAdmin />} />
         <Route path="categories" element={<CategoriesAdmin />} />
+        <Route path="*" element={<Navigate to="/admin" replace />} />
       </Route>
     </Routes>
   )

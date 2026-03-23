@@ -14,9 +14,13 @@ export default function ProductsAdmin() {
   const [deleteConfirm, setDeleteConfirm] = useState(null)
 
   async function handleDelete(id) {
-    await remove(id)
+    const result = await remove(id)
     setDeleteConfirm(null)
-    toast.success('Product removed.')
+    if (result.success) {
+      toast.success('Product removed.')
+    } else {
+      toast.error(`Failed: ${result.error}`)
+    }
   }
 
   return (

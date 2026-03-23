@@ -91,15 +91,7 @@ export default function Register() {
             </button>
           </form>
 
-          <div className="flex items-center gap-4 my-8">
-            <div className="flex-1 h-px bg-silk" />
-            <span className="text-[10px] tracking-luxury uppercase text-warmgray">OR</span>
-            <div className="flex-1 h-px bg-silk" />
-          </div>
 
-          <button className="w-full border border-charcoal text-charcoal bg-transparent text-xs tracking-luxury uppercase py-4 rounded-none hover:bg-parchment transition-colors focus:outline-none">
-            Continue with Google
-          </button>
 
           <div className="mt-12 text-center">
             <span className="text-[10px] tracking-luxury uppercase text-warmgray">

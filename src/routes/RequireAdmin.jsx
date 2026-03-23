@@ -10,9 +10,9 @@ export default function RequireAdmin({ children }) {
 
   if (!isAdmin) {
     return (
-      <div style={{ padding: 24 }}>
-        <h1 style={{ margin: 0 }}>Access denied</h1>
-        <p style={{ marginTop: 8 }}>You need admin access to view this page.</p>
+      <div className="w-full min-h-screen flex flex-col items-center justify-center p-8 bg-bg">
+        <h1 className="font-display text-4xl font-light text-charcoal mb-4">Access Denied</h1>
+        <p className="text-[10px] tracking-luxury uppercase text-warmgray">Admin privileges required to view this sector.</p>
       </div>
     )
   }

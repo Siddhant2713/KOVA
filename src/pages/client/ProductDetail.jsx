@@ -11,6 +11,7 @@ import ProductCard from '../../components/ProductCard/ProductCard.jsx'
 import { useProducts } from '../../hooks/useProducts.js'
 import { useRecentlyViewed } from '../../hooks/useRecentlyViewed.js'
 import { useAuth } from '../../context/AuthContext.jsx'
+import { getCategoryConfig, SIZES as CONFIG_SIZES } from '../../utils/categoryConfig.js'
 
 export default function ProductDetail() {
   const { id } = useParams()
@@ -21,6 +22,7 @@ export default function ProductDetail() {
 
   const [selectedSize, setSelectedSize] = useState('M')
   const [selectedColor, setSelectedColor] = useState('#1A1916')
+  const [selectedVolume, setSelectedVolume] = useState('50ml')
   const [expandedSection, setExpandedSection] = useState('description')
 
   const { add: addToCart, loading: cartLoading } = useCartContext()
@@ -47,7 +49,7 @@ export default function ProductDetail() {
   if (!product) return <div className="w-full min-h-screen flex items-center justify-center font-display text-2xl text-charcoal">Piece unavailable.</div>
 
   const isWishlisted = wishlistItems?.some(item => item.product_id === product.id)
-  const SIZES = ['XS', 'S', 'M', 'L', 'XL']
+  const config = getCategoryConfig(product.category)
   const COLORS = ['#1A1916', '#EFECE5', '#8A877F', '#5B4B38']
 
   const handleAddToCart = () => {
@@ -107,48 +109,83 @@ export default function ProductDetail() {
           </div>
 
           {/* Size Selector */}
-          <div className="mb-8">
-            <div className="flex justify-between items-center mb-4">
-              <span className="text-[10px] tracking-luxury uppercase text-warmgray">Size</span>
-              <button className="text-[10px] tracking-luxury uppercase text-warmgray hover:text-charcoal underline underline-offset-4 focus:outline-none">Size Guide</button>
+          {config.hasSizes && (
+            <div className="mb-8">
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-[10px] tracking-luxury uppercase text-warmgray">Size</span>
+                <button className="text-[10px] tracking-luxury uppercase text-warmgray hover:text-charcoal underline underline-offset-4 focus:outline-none">Size Guide</button>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {CONFIG_SIZES[config.sizeType]?.map(size => (
+                  <button
+                    key={size}
+                    onClick={() => setSelectedSize(size)}
+                    className={`w-12 h-12 flex items-center justify-center font-sans text-xs border rounded-none transition-colors duration-300 focus:outline-none ${selectedSize === size ? 'bg-obsidian border-obsidian text-cream' : 'border-silk text-charcoal hover:border-charcoal bg-transparent'}`}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
             </div>
-            <div className="flex flex-wrap gap-3">
-              {SIZES.map(size => (
-                <button
-                  key={size}
-                  onClick={() => setSelectedSize(size)}
-                  className={`w-12 h-12 flex items-center justify-center font-sans text-xs border rounded-none transition-colors duration-300 focus:outline-none ${selectedSize === size ? 'bg-obsidian border-obsidian text-cream' : 'border-silk text-charcoal hover:border-charcoal bg-transparent'}`}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-          </div>
+          )}
 
           {/* Color Selector */}
-          <div className="mb-12">
-            <span className="block text-[10px] tracking-luxury uppercase text-warmgray mb-4">Color</span>
-            <div className="flex gap-4">
-              {COLORS.map(hex => (
-                <button
-                  key={hex}
-                  onClick={() => setSelectedColor(hex)}
-                  style={{ backgroundColor: hex }}
-                  className={`w-6 h-6 rounded-full border border-silk focus:outline-none transition-transform ${selectedColor === hex ? 'ring-1 ring-offset-2 ring-charcoal' : 'hover:scale-110'}`}
-                  aria-label="Color Box"
-                />
-              ))}
+          {config.hasColors && (
+            <div className="mb-12">
+              <span className="block text-[10px] tracking-luxury uppercase text-warmgray mb-4">
+                {config.colorLabel || 'Color'}
+              </span>
+              <div className="flex gap-4">
+                {COLORS.map(hex => (
+                  <button
+                    key={hex}
+                    onClick={() => setSelectedColor(hex)}
+                    style={{ backgroundColor: hex }}
+                    className={`w-6 h-6 rounded-full border border-silk focus:outline-none transition-transform ${selectedColor === hex ? 'ring-1 ring-offset-2 ring-charcoal' : 'hover:scale-110'}`}
+                    aria-label="Color Box"
+                  />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* Action CTAs */}
+          {/* Volume Selector */}
+          {config.hasVolume && (
+            <div className="mb-8">
+              <span className="block text-[10px] tracking-luxury uppercase text-warmgray mb-4">
+                Volume
+              </span>
+              <div className="flex gap-3">
+                {['30ml', '50ml', '100ml'].map(vol => (
+                  <button
+                    key={vol}
+                    onClick={() => setSelectedVolume(vol)}
+                    className={`px-4 py-2 border rounded-none text-xs font-sans transition-colors duration-300 focus:outline-none ${selectedVolume === vol ? 'bg-obsidian border-obsidian text-cream' : 'border-silk text-charcoal hover:border-charcoal bg-transparent'}`}
+                  >
+                    {vol}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Quantity & Action CTAs */}
           <div className="flex flex-col gap-4 mb-16">
+            <div className="flex items-center gap-6 mb-2">
+              <span className="text-[10px] tracking-luxury uppercase text-warmgray">Quantity</span>
+              <div className="flex items-center border border-silk w-max">
+                <button onClick={() => setQty(Math.max(1, qty - 1))} className="px-4 py-2 text-warmgray hover:text-charcoal transition-colors focus:outline-none"><FiMinus size={14} /></button>
+                <span className="w-8 text-center text-sm font-sans text-charcoal">{qty}</span>
+                <button onClick={() => setQty(qty + 1)} className="px-4 py-2 text-warmgray hover:text-charcoal transition-colors focus:outline-none"><FiPlus size={14} /></button>
+              </div>
+            </div>
+
             <button
               onClick={handleAddToCart}
               disabled={cartLoading}
               className="w-full bg-[#1A1916] text-[#F7F5F0] text-xs tracking-luxury uppercase py-4 rounded-none font-medium hover:bg-charcoal/80 transition-colors duration-300 focus:outline-none disabled:opacity-70"
             >
-              {cartLoading ? 'Reserving...' : 'Add to Bag'}
+              {cartLoading ? 'Reserving...' : config.addLabel}
             </button>
             <button
               onClick={handleWishlist}

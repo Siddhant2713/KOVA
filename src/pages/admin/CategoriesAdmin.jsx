@@ -45,13 +45,13 @@ export default function CategoriesAdmin() {
   }
 
   async function handleDelete(id) {
-    const success = await deleteCategory({ id })
-    if (success) {
-      toast.success('Category removed')
-      setDeleteConfirm(null)
+    const result = await deleteCategory({ id })
+    setDeleteConfirm(null)
+    if (result.success) {
+      toast.success('Category removed.')
       load()
     } else {
-      toast.error('Failed to remove category')
+      toast.error(`Failed: ${result.error}`)
     }
   }
 

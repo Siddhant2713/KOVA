@@ -37,7 +37,7 @@ export default function Checkout() {
     }
   })
 
-  // Prevent accessing checkout with empty cart natively
+  // Prevent accessing checkout with empty bag natively
   if (items.length === 0 && !orderComplete) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4">
@@ -80,7 +80,7 @@ export default function Checkout() {
 
       if (order) {
         toast.success("Transaction securely approved.")
-        await reload() // Flushes cart context
+        await reload() // Flushes bag context
         setOrderComplete(true)
       } else {
         toast.error("Transaction declined. Please verify your details.")
@@ -97,7 +97,7 @@ export default function Checkout() {
 
       {/* Editorial Breadcrumbs Matrix */}
       <div className="flex justify-center items-center gap-4 text-[10px] tracking-luxury uppercase text-warmgray mb-16 flex-wrap">
-        <span className="text-charcoal border-b border-charcoal pb-[1px]">Cart</span>
+        <span className="text-charcoal border-b border-charcoal pb-[1px]">Bag</span>
         <span>→</span>
         <span className="text-charcoal border-b border-charcoal pb-[1px]">Details</span>
         <span>→</span>

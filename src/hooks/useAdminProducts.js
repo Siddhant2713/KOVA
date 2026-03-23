@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useDebounce } from './useDebounce.js'
 import {
     fetchAllProductsAdmin,
     createProduct,
@@ -12,17 +13,18 @@ export function useAdminProducts() {
     const [total, setTotal] = useState(0)
     const [loading, setLoading] = useState(false)
     const [search, setSearch] = useState('')
+    const debouncedSearch = useDebounce(search, 400)
 
     const reload = useCallback(async () => {
         setLoading(true)
         try {
-            const res = await fetchAllProductsAdmin({ search })
+            const res = await fetchAllProductsAdmin({ search: debouncedSearch })
             setProducts(res.products)
             setTotal(res.total)
         } finally {
             setLoading(false)
         }
-    }, [search])
+    }, [debouncedSearch])
 
     useEffect(() => {
         reload()
@@ -41,9 +43,9 @@ export function useAdminProducts() {
     }, [reload])
 
     const remove = useCallback(async (id) => {
-        const success = await deleteProduct({ id })
-        if (success) await reload()
-        return success
+        const result = await deleteProduct({ id })
+        if (result.success) await reload()
+        return result
     }, [reload])
 
     const uploadImage = useCallback(async (file) => {

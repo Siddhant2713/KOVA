@@ -29,7 +29,7 @@ export default function CustomersAdmin() {
       </div>
 
       <DataTable
-        columns={['Name', 'Email', 'Joined', 'Orders']}
+        columns={['Name', 'Joined', 'Orders']}
         rows={customers}
         loading={loading}
         empty="No customers found."
@@ -38,9 +38,7 @@ export default function CustomersAdmin() {
             <td className="px-4 py-3 text-sm text-charcoal font-medium">
               {customer.full_name || 'Anonymous User'}
             </td>
-            <td className="px-4 py-3 text-sm text-charcoal">
-              {customer.email ?? 'Unavailable'}
-            </td>
+
             <td className="px-4 py-3 text-xs text-warmgray">
               {new Date(customer.created_at).toLocaleDateString()}
             </td>
