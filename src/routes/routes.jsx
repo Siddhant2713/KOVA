@@ -16,6 +16,9 @@ import Orders from '../pages/client/Orders.jsx'
 import OrderDetail from '../pages/client/OrderDetail.jsx'
 import Login from '../pages/client/Login.jsx'
 import Register from '../pages/client/Register.jsx'
+import About from '../pages/client/About.jsx'
+import Editorial from '../pages/client/Editorial.jsx'
+import EditorialArticle from '../pages/client/EditorialArticle.jsx'
 
 import AdminLayout from '../components/layout/AdminLayout.jsx'
 import Dashboard from '../pages/admin/Dashboard.jsx'
@@ -41,6 +44,9 @@ export default function AppRoutes() {
         <Route path="orders/:id" element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="about" element={<About />} />
+        <Route path="editorial" element={<Editorial />} />
+        <Route path="editorial/:slug" element={<EditorialArticle />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
