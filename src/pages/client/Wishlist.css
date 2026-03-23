@@ -1,0 +1,24 @@
+.kova-wishlist {
+    width: min(1120px, 100%);
+    margin: 0 auto;
+    padding: 0 16px 80px 16px;
+}
+
+.kova-wishlist__title {
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+}
+
+.kova-wishlist-empty {
+    text-align: center;
+    padding: 80px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.kova-wishlist-empty p {
+    opacity: 0.6;
+}

@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #F7F5F0;
+    /* ivory */
+    --text: #1A1916;
+    /* charcoal */
+    --color-ivory: #F7F5F0;
+    --color-parchment: #EFECE5;
+    --color-silk: #E5E1D8;
+    --color-charcoal: #1A1916;
+    --color-warmgray: #8A877F;
+    --color-linen: #D4CFC4;
+    --color-obsidian: #0D0C0A;
+    --color-cream: #FDFCF9;
+  }
+
+  [data-theme='dark'] {
+    --bg: #0F0E0C;
+    /* dark-base */
+    --text: #F0EDE6;
+    /* dark-text */
+    --color-ivory: #0F0E0C;
+    --color-parchment: #1A1916;
+    --color-silk: #2A2823;
+    --color-charcoal: #F0EDE6;
+    --color-warmgray: #7A776F;
+    --color-linen: #242220;
+    --color-obsidian: #FDFCF9;
+    --color-cream: #0D0C0A;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: #1A1916;
+    color: #F7F5F0;
+  }
+
+  /* Reset headings typography */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+  }
+
+  /* Ensure all borders adopt the warm thin styling universally by default */
+  * {
+    border-color: #E5E1D8;
+  }
+}
+
+@layer utilities {
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* We leave this legacy block temporarily for standard React routes that haven't migrated yet */
+.kova-app {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+.kova-main {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  flex: 1;
+  padding: 24px 16px;
+  text-align: left;
+}
