@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom'
-import { FiX, FiShoppingCart, FiInfo } from 'react-icons/fi'
+import { FiX, FiShoppingCart, FiInfo, FiTrash2 } from 'react-icons/fi'
 import { toast } from 'react-toastify'
 import { useCompare } from '../../context/CompareContext.jsx'
 import { useCartContext } from '../../context/CartContext.jsx'
@@ -46,7 +46,7 @@ export default function Compare() {
                     <div className="w-full aspect-[3/4] bg-ivory dark:bg-white border border-silk mb-2 flex shrink-0 items-center justify-center p-4">
                       <img src={product.image_url} alt={product.title} className="w-full h-full object-cover object-top mix-blend-multiply dark:mix-blend-normal hover:scale-105 transition-transform duration-700 ease-out" />
                     </div>
-                    <Link to={`/ products / ${ product.id } `} className="font-display text-xl text-charcoal font-light m-0 line-clamp-1 hover:opacity-70 transition-opacity">
+                    <Link to={`/products/${product.id}`} className="font-display text-xl text-charcoal font-light m-0 line-clamp-1 hover:opacity-70 transition-opacity">
                       {product.title || 'Archive Collection Piece'}
                     </Link>
                     <div className="font-sans text-sm text-charcoal font-medium">

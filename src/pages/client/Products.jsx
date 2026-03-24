@@ -7,20 +7,14 @@ import ProductGrid from '../../components/ProductGrid/ProductGrid.jsx'
 import ProductCard from '../../components/ProductCard/ProductCard.jsx'
 import Filters from '../../components/Filters/Filters.jsx'
 
-// Helper function to determine if a category is a "luxury" category
-// This function is assumed to be defined elsewhere or needs to be added.
-// For the purpose of this edit, we'll add a placeholder.
-const isLuxuryCategory = (category) => {
-  // Replace with actual logic to check for luxury categories
-  return category === 'luxury' || category === 'premium';
-};
+
 
 export default function Products() {
   const { filters, setCategoryId, setSort } = useFilter()
-  const { category, minPrice, maxPrice, sort, search } = filters;
+  const { categoryId, minPrice, maxPrice, sort, search } = filters;
 
   const { products, loading, loadingMore, total, loadMore } = useProducts({
-    categoryId: isLuxuryCategory(category) ? category : null,
+    categoryId,
     minPrice,
     maxPrice,
     sort,
