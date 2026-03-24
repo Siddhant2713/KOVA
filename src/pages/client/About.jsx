@@ -140,13 +140,11 @@ export default function About() {
                     <h2 className="font-display text-4xl font-light text-charcoal mb-16 m-0">How it's made</h2>
                 </div>
 
-                <motion.div
-                    className="flex gap-8 px-8 overflow-x-auto hide-scrollbar cursor-grab active:cursor-grabbing pb-8"
-                    drag="x"
-                    dragConstraints={{ left: -800, right: 0 }}
+                <div
+                    className="flex gap-8 px-8 overflow-x-auto hide-scrollbar pb-8 snap-x snap-mandatory"
                 >
                     {/* Step 1 */}
-                    <div className="w-[320px] md:w-[400px] shrink-0 flex flex-col gap-6 pointer-events-none">
+                    <div className="w-[80vw] md:w-[400px] shrink-0 flex flex-col gap-6 snap-start">
                         <div className="w-full aspect-[4/5] overflow-hidden bg-bg">
                             <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=800" alt="The Material" className="w-full h-full object-cover" />
                         </div>
@@ -158,7 +156,7 @@ export default function About() {
                         </p>
                     </div>
                     {/* Step 2 */}
-                    <div className="w-[320px] md:w-[400px] shrink-0 flex flex-col gap-6 pointer-events-none">
+                    <div className="w-[80vw] md:w-[400px] shrink-0 flex flex-col gap-6 snap-start">
                         <div className="w-full aspect-[4/5] overflow-hidden bg-bg">
                             <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=800" alt="The Pattern" className="w-full h-full object-cover" />
                         </div>
@@ -170,7 +168,7 @@ export default function About() {
                         </p>
                     </div>
                     {/* Step 3 */}
-                    <div className="w-[320px] md:w-[400px] shrink-0 flex flex-col gap-6 pointer-events-none">
+                    <div className="w-[80vw] md:w-[400px] shrink-0 flex flex-col gap-6 snap-start">
                         <div className="w-full aspect-[4/5] overflow-hidden bg-bg">
                             <img src="https://images.unsplash.com/photo-1601924921557-45e6dea0a157?q=80&w=800" alt="The Construction" className="w-full h-full object-cover" />
                         </div>
@@ -182,7 +180,7 @@ export default function About() {
                         </p>
                     </div>
                     {/* Step 4 */}
-                    <div className="w-[320px] md:w-[400px] shrink-0 flex flex-col gap-6 pointer-events-none">
+                    <div className="w-[80vw] md:w-[400px] shrink-0 flex flex-col gap-6 snap-start">
                         <div className="w-full aspect-[4/5] overflow-hidden bg-bg">
                             <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=800" alt="The Finish" className="w-full h-full object-cover" />
                         </div>
@@ -193,7 +191,7 @@ export default function About() {
                             it is ready.
                         </p>
                     </div>
-                </motion.div>
+                </div>
             </section>
 
             {/* Section 5 — Sustainability Statement */}

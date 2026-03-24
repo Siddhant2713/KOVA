@@ -11,9 +11,9 @@ const CATEGORIES = [
 const SIZES = ['XS', 'S', 'M', 'L', 'XL']
 const COLORS = ['#1A1916', '#EFECE5', '#8A877F', '#5B4B38']
 
-export default function Filters({ filters, setCategoryId, setSort }) {
+export default function Filters({ filters, setCategoryId, setSort, className = "" }) {
     return (
-        <aside className="hidden lg:block w-64 shrink-0 border-r border-silk pr-8 py-8 space-y-16">
+        <aside className={`w-full lg:w-64 shrink-0 lg:border-r lg:border-silk lg:pr-8 space-y-12 lg:space-y-16 ${className}`}>
 
             {/* Categories */}
             <div>

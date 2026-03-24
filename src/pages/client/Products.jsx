@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion'
-import { FiSliders, FiChevronDown } from 'react-icons/fi'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FiSliders, FiChevronDown, FiX } from 'react-icons/fi'
 
 import { useProducts } from '../../hooks/useProducts.js'
 import { useFilter } from '../../hooks/useFilter.js'
@@ -10,6 +11,7 @@ import Filters from '../../components/Filters/Filters.jsx'
 
 
 export default function Products() {
+  const [showMobileFilters, setShowMobileFilters] = useState(false)
   const { filters, setCategoryId, setSort } = useFilter()
   const { categoryId, minPrice, maxPrice, sort, search } = filters;
 
@@ -26,7 +28,9 @@ export default function Products() {
     <div className="w-full max-w-7xl mx-auto px-8 py-16 md:py-24 min-h-screen flex flex-col lg:flex-row gap-8 lg:gap-16">
 
       {/* Sidebar Filters - Desktop */}
-      <Filters filters={filters} setCategoryId={setCategoryId} setSort={setSort} />
+      <div className="hidden lg:block py-8">
+        <Filters filters={filters} setCategoryId={setCategoryId} setSort={setSort} />
+      </div>
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col lg:pt-8">
@@ -40,7 +44,10 @@ export default function Products() {
 
           <div className="flex items-center gap-6 lg:hidden">
             {/* Mobile Filter Toggle */}
-            <button className="flex items-center gap-2 text-xs tracking-luxury uppercase text-charcoal focus:outline-none">
+            <button
+              onClick={() => setShowMobileFilters(true)}
+              className="flex items-center gap-2 text-xs tracking-luxury uppercase text-charcoal focus:outline-none"
+            >
               <FiSliders size={14} strokeWidth={1.5} /> Filters
             </button>
 
@@ -101,6 +108,44 @@ export default function Products() {
             )}
           </>)}
       </div>
+
+      {/* Mobile Filters Drawer */}
+      <AnimatePresence>
+        {showMobileFilters && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-charcoal/50 z-40 lg:hidden"
+              onClick={() => setShowMobileFilters(false)}
+            />
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'tween', duration: 0.4, ease: 'easeOut' }}
+              className="fixed top-0 left-0 h-full w-[85vw] max-w-sm bg-bg z-50 p-8 overflow-y-auto lg:hidden"
+            >
+              <div className="flex justify-between items-center mb-12">
+                <span className="font-display text-2xl text-charcoal">Filters</span>
+                <button onClick={() => setShowMobileFilters(false)} className="text-charcoal hover:opacity-50"><FiX size={24} /></button>
+              </div>
+              <Filters
+                filters={filters}
+                setCategoryId={(id) => {
+                  setCategoryId(id);
+                  setShowMobileFilters(false);
+                }}
+                setSort={(v) => {
+                  setSort(v);
+                  setShowMobileFilters(false);
+                }}
+              />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
