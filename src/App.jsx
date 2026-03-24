@@ -7,6 +7,7 @@ import { CartProvider } from './context/CartContext.jsx'
 import { WishlistProvider } from './context/WishlistContext.jsx'
 import { CompareProvider } from './context/CompareContext.jsx'
 import { ThemeProvider } from './context/ThemeContext.jsx'
+import ErrorBoundary from './components/layout/ErrorBoundary.jsx'
 import AppRoutes from './routes/routes.jsx'
 
 export default function App() {
@@ -17,7 +18,9 @@ export default function App() {
           <CompareProvider>
             <ThemeProvider>
               <BrowserRouter>
-                <AppRoutes />
+                <ErrorBoundary>
+                  <AppRoutes />
+                </ErrorBoundary>
                 <ToastContainer position="bottom-right" theme="dark" />
               </BrowserRouter>
             </ThemeProvider>

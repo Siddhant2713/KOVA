@@ -9,6 +9,7 @@ export default {
         extend: {
             colors: {
                 // Dynamic Mode Base mapped to CSS Variables
+                bg: 'var(--bg)',
                 ivory: 'var(--color-ivory)',
                 parchment: 'var(--color-parchment)',
                 silk: 'var(--color-silk)',

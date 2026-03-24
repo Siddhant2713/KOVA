@@ -4,13 +4,11 @@ const ThemeContext = createContext()
 
 export function ThemeProvider({ children }) {
     const [theme, setTheme] = useState(() => {
-        const savedTheme = localStorage.getItem('kova_theme')
-        if (savedTheme) return savedTheme
-
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 'dark'
+        try {
+            return localStorage.getItem('kova_theme') || 'light'
+        } catch {
+            return 'light'
         }
-        return 'light'
     })
 
     useEffect(() => {

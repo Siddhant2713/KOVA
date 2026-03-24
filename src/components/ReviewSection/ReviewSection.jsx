@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { FiStar } from 'react-icons/fi'
+import { toast } from 'react-toastify'
 import { fetchReviewsByProduct, addReview } from '../../services/reviews.js'
 import { useAuth } from '../../context/AuthContext.jsx'
 
@@ -24,7 +25,10 @@ export default function ReviewSection({ productId, productRating, ratingCount })
 
     async function handleSubmit(e) {
         e.preventDefault()
-        if (!user) return alert("Must be logged in to review")
+        if (!user) {
+            toast.error("Must be logged in to review")
+            return
+        }
         setSubmitting(true)
         const newReview = await addReview({ productId, userId: user.id, rating, comment })
         if (newReview) {

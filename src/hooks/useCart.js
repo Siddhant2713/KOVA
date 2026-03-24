@@ -32,12 +32,22 @@ export function useCart(userId) {
   const add = useCallback(
     async (productId, quantity = 1) => {
       if (!userId) return
-      setLoading(true)
+
+      // Optimistic upate (won't have full product details, but prevents block)
+      setItems(prev => {
+        const existing = prev.find(i => i.product_id === productId)
+        if (existing) {
+          return prev.map(i => i.product_id === productId ? { ...i, quantity: i.quantity + quantity } : i)
+        }
+        return [...prev, { id: 'temp_' + Date.now(), product_id: productId, quantity, products: { price: 0 } }]
+      })
+
       try {
         await addCartItem({ userId, productId, quantity })
-        await reload()
+      } catch (err) {
+        console.error(err)
       } finally {
-        setLoading(false)
+        reload()
       }
     },
     [reload, userId],
@@ -46,12 +56,15 @@ export function useCart(userId) {
   const updateQty = useCallback(
     async (productId, quantity) => {
       if (!userId) return
-      setLoading(true)
+
+      setItems(prev => prev.map(i => i.product_id === productId ? { ...i, quantity } : i))
+
       try {
         await updateCartItemQty({ userId, productId, quantity })
-        await reload()
+      } catch (err) {
+        console.error(err)
       } finally {
-        setLoading(false)
+        reload()
       }
     },
     [reload, userId],
@@ -60,12 +73,15 @@ export function useCart(userId) {
   const remove = useCallback(
     async (productId) => {
       if (!userId) return
-      setLoading(true)
+
+      setItems(prev => prev.filter(i => i.product_id !== productId))
+
       try {
         await removeCartItem({ userId, productId })
-        await reload()
+      } catch (err) {
+        console.error(err)
       } finally {
-        setLoading(false)
+        reload()
       }
     },
     [reload, userId],

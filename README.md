@@ -10,10 +10,11 @@ Kova represents a complete architectural and aesthetic departure from traditiona
 
 Kova is built on a modern, decoupled React frontend powered by a Supabase backend.
 
-- **Frontend Core**: React 18, Vite, React Router DOM (v6.22)
+- **State & Routing:** Context API + React Router DOM v7.13 (with `React.lazy` route splitting)
 - **Styling Architecture**: Tailwind CSS (v3) + PostCSS + Framer Motion
 - **Database & Backend**: Supabase (PostgreSQL, Row Level Security, Supabase Auth, Storage)
 - **State Management**: React Context API (`AuthContext`, `CartContext`, `WishlistContext`, `ThemeContext`, `CompareContext`)
+- **UI Feedback & Error Handling**: `react-toastify` for silent alerts and a global `<ErrorBoundary>` wrapper for resilient rendering.
 - **Icons & Typography**: `react-icons`, *Cormorant Garamond* (Display), *DM Sans* (Body)
 
 ## 🎨 Design System: The V2 Pivot
@@ -27,10 +28,11 @@ The storefront operates strictly on a custom luxury design system defined in `ta
 ## 🛍️ Features
 
 ### Core Storefront (Client)
+- **Editorial & Brand Experience**: Full-screen manifesto `About` page, dedicated `Editorial` journal directory, and dynamic hero marquees.
 - **Editorial UI**: Split-screen authenticated views, infinite scrolling marquees, and rich grid layouts (Aspect Ratio 3/4 mapping).
-- **Product Discovery**: Dynamic Search, Categorical filtering, fully functional **Wishlist** and **Compare** tables.
-- **Cart & Checkout**: Drawer-based Cart implementation with simulated checkout workflows.
-- **Personalization**: "Recently Viewed" algorithms mapping localized user history via Supabase `upsert` hooks.
+- **Product Discovery**: Dynamic Search, Categorical filtering with precise pagination, and fully functional **Wishlist** and **Compare** tables.
+- **Cart & Checkout**: Drawer-based Cart implementation with simulated checkout workflows and **Optimistic UI Updates** for instantaneous state mutation.
+- **Personalization**: "Recently Viewed" algorithms mapping localized user history via Supabase `upsert` hooks, logically capped to preserve efficiency.
 - **Order History**: Customers can track their placed orders, view shipment statuses visually via badge mapping, and view invoice breakdowns.
 
 ### The Dashboard (Admin)
@@ -64,10 +66,11 @@ The administrative backend is structurally segregated beneath an `<AdminLayout /
    ```
 
 4. **Initialize Database Schema**
-   Execute these SQL files in your Supabase project's SQL Editor in this exact order:
+   All seed and schema files have been unified. Execute these SQL files from the `/db/seeds/` and `/supabase/` directories in your Supabase project's SQL Editor:
    - Run `supabase_schema.sql` first (instantiates tables + basic public RLS policies).
    - Run `supabase/rls.sql` second (establishes the `is_admin()` function and all Admin write policies).
    - Run `supabase/storage.sql` third (configures the product-images bucket policies).
+   - Finally, run `db/seeds/supabase_seed_luxury_expanded.sql` to populate the catalog with house-specific luxury apparel and fragrance data.
 
 5. **Start the Development Server**
    ```bash

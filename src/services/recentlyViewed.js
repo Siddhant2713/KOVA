@@ -20,6 +20,19 @@ export async function logRecentlyViewed({ userId, productId }) {
     console.error('Error logging recently viewed:', error)
     return null
   }
+
+  // App-level optimization: Cap list at 20 items per user
+  const { data: userViews } = await supabase
+    .from('recently_viewed')
+    .select('product_id')
+    .eq('user_id', userId)
+    .order('viewed_at', { ascending: false })
+
+  if (userViews && userViews.length > 20) {
+    const idsToDelete = userViews.slice(20).map(v => v.product_id)
+    await supabase.from('recently_viewed').delete().eq('user_id', userId).in('product_id', idsToDelete)
+  }
+
   return data
 }
 

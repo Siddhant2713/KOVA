@@ -8,6 +8,7 @@ export async function fetchProducts({
   search,
   isFeatured,
   limit,
+  offset = 0,
 } = {}) {
   if (!supabase) return { products: [], total: 0 }
 
@@ -24,7 +25,9 @@ export async function fetchProducts({
   else if (sort === 'rating') query = query.order('rating', { ascending: false })
   else query = query.order('created_at', { ascending: false }) // newest by default
 
-  if (limit) query = query.limit(limit)
+  if (limit) {
+    query = query.range(offset, offset + limit - 1)
+  }
 
   const { data, count, error } = await query
 

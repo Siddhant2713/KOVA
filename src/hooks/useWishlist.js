@@ -31,12 +31,19 @@ export function useWishlist(userId) {
   const toggle = useCallback(
     async (productId) => {
       if (!userId) return
-      setLoading(true)
+
+      setItems(prev => {
+        const exists = prev.find(i => i.product_id === productId)
+        if (exists) return prev.filter(i => i.product_id !== productId)
+        return [...prev, { id: 'temp_' + Date.now(), product_id: productId, products: {} }]
+      })
+
       try {
         await toggleWishlistItem({ userId, productId })
-        await reload()
+      } catch (err) {
+        console.error(err)
       } finally {
-        setLoading(false)
+        reload()
       }
     },
     [reload, userId],

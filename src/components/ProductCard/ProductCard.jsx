@@ -1,5 +1,7 @@
+
 import { Link } from 'react-router-dom'
-import { FiHeart, FiStar } from 'react-icons/fi'
+import { FiHeart, FiShoppingCart, FiArrowRight, FiStar } from 'react-icons/fi'
+import { toast } from 'react-toastify'
 import { useCartContext } from '../../context/CartContext.jsx'
 import { useWishlistContext } from '../../context/WishlistContext.jsx'
 import { useAuth } from '../../context/AuthContext.jsx'
@@ -14,7 +16,7 @@ export default function ProductCard({ product }) {
     const handleAddToCart = (e) => {
         e.preventDefault()
         if (!user) {
-            alert("Please login to add to bag")
+            toast.error("Please login to add to bag")
             return
         }
         add(product.id, 1)
@@ -23,7 +25,7 @@ export default function ProductCard({ product }) {
     const handleWishlist = (e) => {
         e.preventDefault()
         if (!user) {
-            alert("Please login to add to wishlist")
+            toast.error("Please login to add to wishlist")
             return
         }
         toggle(product.id)

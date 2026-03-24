@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react'
+import { toast } from 'react-toastify';
 
-const CompareContext = createContext(null)
+export const CompareContext = createContext(null)
 
 export function CompareProvider({ children }) {
     const [items, setItems] = useState(() => {
@@ -21,7 +22,7 @@ export function CompareProvider({ children }) {
             const exists = prev.find(p => p.id === product.id)
             if (exists) return prev.filter(p => p.id !== product.id)
             if (prev.length >= 4) {
-                alert("You can only compare up to 4 products at once.")
+                toast.error("You can only compare up to 4 products at once.")
                 return prev
             }
             return [...prev, product]

@@ -1,6 +1,8 @@
+
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { FiHeart, FiMinus, FiPlus, FiChevronDown, FiChevronUp } from 'react-icons/fi'
+import { FiHeart, FiMinus, FiPlus, FiArrowRight } from 'react-icons/fi'
+import { toast } from 'react-toastify'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { fetchProductById } from '../../services/products.js'
 import { useCartContext } from '../../context/CartContext.jsx'
@@ -53,12 +55,18 @@ export default function ProductDetail() {
   const COLORS = ['#1A1916', '#EFECE5', '#8A877F', '#5B4B38']
 
   const handleAddToCart = () => {
-    if (!user) return alert("Please authenticate to reserve this piece.")
+    if (!user) {
+      toast.error("Please authenticate to reserve this piece.")
+      return
+    }
     addToCart(product.id, qty)
   }
 
   const handleWishlist = () => {
-    if (!user) return alert("Please authenticate to save this piece.")
+    if (!user) {
+      toast.error("Please authenticate to save this piece.")
+      return
+    }
     toggleWishlist(product.id)
   }
 
@@ -268,7 +276,7 @@ export default function ProductDetail() {
             ))}
             {/* Fallback structural cards */}
             {relatedProducts?.length < 3 && [...Array(4)].map((_, i) => (
-              <div key={`blank-${i}`} className="w-72 aspect-[3/4] shrink-0 bg-parchment border border-silk flex items-center justify-center snap-start">
+              <div key={`blank - ${i} `} className="w-72 aspect-[3/4] shrink-0 bg-parchment border border-silk flex items-center justify-center snap-start">
                 <span className="text-[10px] tracking-luxury uppercase text-warmgray">Kova Archive</span>
               </div>
             ))}

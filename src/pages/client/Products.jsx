@@ -7,9 +7,26 @@ import ProductGrid from '../../components/ProductGrid/ProductGrid.jsx'
 import ProductCard from '../../components/ProductCard/ProductCard.jsx'
 import Filters from '../../components/Filters/Filters.jsx'
 
+// Helper function to determine if a category is a "luxury" category
+// This function is assumed to be defined elsewhere or needs to be added.
+// For the purpose of this edit, we'll add a placeholder.
+const isLuxuryCategory = (category) => {
+  // Replace with actual logic to check for luxury categories
+  return category === 'luxury' || category === 'premium';
+};
+
 export default function Products() {
   const { filters, setCategoryId, setSort } = useFilter()
-  const { products, loading, total } = useProducts(filters)
+  const { category, minPrice, maxPrice, sort, search } = filters;
+
+  const { products, loading, loadingMore, total, loadMore } = useProducts({
+    categoryId: isLuxuryCategory(category) ? category : null,
+    minPrice,
+    maxPrice,
+    sort,
+    search,
+    limit: 12
+  })
 
   return (
     <div className="w-full max-w-7xl mx-auto px-8 py-16 md:py-24 min-h-screen flex flex-col lg:flex-row gap-8 lg:gap-16">
@@ -51,7 +68,7 @@ export default function Products() {
         </div>
 
         {/* Product Grid Rendering */}
-        {loading ? (
+        {loading && products.length === 0 ? (
           <div className="w-full flex-1 flex items-center justify-center font-sans text-xs tracking-luxury uppercase text-warmgray min-h-[300px]">
             Curating collection...
           </div>
@@ -63,19 +80,32 @@ export default function Products() {
             </button>
           </div>
         ) : (
-          <ProductGrid>
-            {products.map((p, i) => (
-              <motion.div
-                key={p.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: i * 0.08, ease: "easeOut" }}
-              >
-                <ProductCard product={p} />
-              </motion.div>
-            ))}
-          </ProductGrid>
-        )}
+          <>
+            <ProductGrid>
+              {products.map((p, i) => (
+                <motion.div
+                  key={p.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: i * 0.08, ease: "easeOut" }}
+                >
+                  <ProductCard product={p} />
+                </motion.div>
+              ))}
+            </ProductGrid>
+
+            {products.length < total && (
+              <div className="w-full flex justify-center mt-16 pb-8">
+                <button
+                  onClick={loadMore}
+                  disabled={loadingMore}
+                  className="border border-charcoal text-charcoal bg-transparent px-8 py-3.5 rounded-none text-xs tracking-luxury uppercase hover:bg-charcoal hover:text-cream transition-colors duration-300 focus:outline-none disabled:opacity-50"
+                >
+                  {loadingMore ? 'Loading...' : 'Load More'}
+                </button>
+              </div>
+            )}
+          </>)}
       </div>
     </div>
   )

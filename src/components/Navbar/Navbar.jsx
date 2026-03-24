@@ -34,7 +34,6 @@ export default function Navbar() {
 
   const navLinks = [
     { label: 'Shop', path: '/products' },
-    { label: 'Collections', path: '/collections' },
     { label: 'Editorial', path: '/editorial' },
     { label: 'About', path: '/about' },
   ]
