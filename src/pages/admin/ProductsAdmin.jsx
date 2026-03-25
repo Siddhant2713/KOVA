@@ -69,11 +69,11 @@ export default function ProductsAdmin() {
           >
             {/* Thumbnail */}
             <td className="px-4 py-3 w-12">
-              <div className="w-10 h-10 bg-ivory border border-silk overflow-hidden shrink-0">
+              <div className="w-10 h-10 bg-ivory dark:bg-white border border-silk overflow-hidden shrink-0">
                 <img
                   src={product.image_url}
                   alt={product.title}
-                  className="w-full h-full object-cover mix-blend-multiply"
+                  className="w-full h-full object-cover mix-blend-multiply dark:mix-blend-normal"
                 />
               </div>
             </td>
